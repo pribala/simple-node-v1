@@ -1,0 +1,19 @@
+language: node_js
+node_js: 
+  - 13
+services:
+  - docker
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+# Scripts to be run such as tests
+before-script:
+  - echo "no tests"
+script:
+  - docker -- version 
+  - docker build -t simple-node .
+  - docker tag simple-node pribala/simple-node:latest
+after-success:
+  - echo "$DOCKER-PASSWORD" | docker login -u "$DOCKER-USERNAME" --password-stdin
+  - docker push pribala/simple-node
+
